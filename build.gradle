@@ -13,7 +13,6 @@ buildscript {
 
 plugins {
     id 'java'
-    id 'org.spongepowered.plugin' version '0.9.0'
     id 'com.github.johnrengelman.shadow' version '4.0.3'
 }
 
@@ -39,26 +38,16 @@ minecraft {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
-    maven { url 'https://jitpack.io'}
     maven {
-        name 'Sponge maven repo'
-        url 'http://repo.spongepowered.org/maven'
+        name = 'JitPack'
+        url = 'https://jitpack.io/'
     }
+    maven { url = "http://52.144.46.165:8081/repository/maven-releases/"}
 }
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:7.2.0'
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
-    shadow 'com.github.Eufranio:StorageUtils:2.3'
-    annotationProcessor("org.spongepowered:spongecommon:1.12.2-7.2.0:dev")
-    provided("org.spongepowered:spongecommon:1.12.2-7.2.0:dev") {
-        exclude(module: "commons-io")
-        exclude(module: "gson")
-        exclude(module: "guava")
-        exclude(module: "launchwrapper")
-    }
+    compileOnly 'com.pixelmongenerations:main-mod:8.4.2'
 }
 
 processResources {

@@ -19,17 +19,17 @@ public class Delete implements CommandExecutor {
             String name = args.<String>getOne(Text.of("name")).get();
             try {
                 if (Utils.getDataMap().get(name) == null) {
-                    src.sendMessage(Utils.toText("&8(&b&lNPCFiles&8) &cAn NPC file of this type doesn't exist."));
+                    src.sendMessage(Utils.toText("&8(&bNPCFiles&8) &cAn NPC file of this type doesn't exist."));
                 } else {
                     Utils.writeToGSON(name, null, null, true);
-                    src.sendMessage(Utils.toText("&8(&b&lNPCFiles&8) &a&l" + name + " &awas removed from file."));
+                    src.sendMessage(Utils.toText("&8(&bNPCFiles&8) &a&l" + name + " &awas removed from file."));
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
 
         } else {
-            src.sendMessage(Utils.toText("&8(&b&lNPCFiles&8) &cCommand syntax is invalid!"));
+            src.sendMessage(Utils.toText("&8(&bNPCFiles&8) &cCommand syntax is invalid!"));
         }
 
         return CommandResult.success();
@@ -38,7 +38,7 @@ public class Delete implements CommandExecutor {
     public static CommandSpec build() {
         return CommandSpec.builder()
                 .permission("npcfiles.command.delete.base")
-                .arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("name"))))
+                .arguments(GenericArguments.withSuggestions(GenericArguments.string(Text.of("name")), Utils.getDataMap().keySet()))
                 .executor(new Delete())
                 .build();
     }

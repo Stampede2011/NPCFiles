@@ -3,11 +3,6 @@ package dev.blu3.npcfiles.utils;
 import com.pixelmongenerations.common.entity.npcs.*;
 import com.pixelmongenerations.core.enums.EnumNPCType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -22,11 +17,8 @@ public class Listeners
 
     @Listener
     public void onNPCInteract(final InteractEntityEvent.Secondary event, @Root final Player p) throws IOException {
-        Sponge.getServer().getBroadcastChannel().send(Utils.toText("!!! interact 1"));
         if (Utils.inSelectMode.containsKey(p.getUniqueId())) {
-            Sponge.getServer().getBroadcastChannel().send(Utils.toText("!!! interact 2"));
             if (Utils.inSelectMode.get(p.getUniqueId()).booleanValue()) {
-                Sponge.getServer().getBroadcastChannel().send(Utils.toText("!!! interact 3"));
                 if (event.getTargetEntity() instanceof EntityNPC) {
                     String name = Utils.npcFileName.get(p.getUniqueId());
                     EnumNPCType npcType = null;
@@ -46,9 +38,9 @@ public class Listeners
                         npcType = EnumNPCType.Tutor;
                     }
                     Utils.writeToGSON(name, npcType, ((Entity) event.getTargetEntity()).serializeNBT().toString(), false);
-                    p.sendMessage(Utils.toText("&e" + name + " &bwas stored to file."));
+                    p.sendMessage(Utils.toText("&8(&bNPCFiles&8) &a&l" + name + " &awas stored to file."));
                 } else {
-                    p.sendMessage(Utils.toText("&cThis is not a Pixelmon NPC."));
+                    p.sendMessage(Utils.toText("&8(&bNPCFiles&8) &cThis is not a Pixelmon NPC."));
                 }
                 Utils.inSelectMode.put(p.getUniqueId(), false);
             }

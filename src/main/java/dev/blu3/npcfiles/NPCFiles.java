@@ -4,15 +4,11 @@ import com.google.inject.Inject;
 import dev.blu3.npcfiles.commands.Base;
 import dev.blu3.npcfiles.utils.Listeners;
 import dev.blu3.npcfiles.utils.Utils;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
@@ -52,13 +48,15 @@ public class NPCFiles
         logger.info("NPCFiles has been enabled!");
     }
 
-    private void loadConfig() {
+    public void loadConfig() {
         try {
-            // If there's no config file then create it
+
             if (!file.exists()) {
                 file.createNewFile();
+
                 Utils.writeNewGSON();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,7 +65,14 @@ public class NPCFiles
 
     @Listener
     public void onServerStarted(GameStartedServerEvent e) {
-        Sponge.getCommandManager().register(instance, Base.build(), "npcfiles", "nfiles", "npcf", "nf");
+        Sponge.getCommandManager().register(instance, Base.build(), "npcfiles", "nfiles", "npcf", "npc", "nf");
+    }
+
+    @Listener
+    public void onReload(GameReloadEvent event) {
+        this.loadConfig();
+
+        logger.info("NPCFiles has been reloaded!");
     }
 
     public static Logger getLogger() {
@@ -76,6 +81,10 @@ public class NPCFiles
 
     public static File getFile() {
         return instance.file;
+    }
+
+    public static NPCFiles getInstance() {
+        return instance;
     }
 
 }

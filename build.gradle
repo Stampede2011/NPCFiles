@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         maven {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
@@ -39,9 +39,9 @@ minecraft {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
     maven { url 'https://jitpack.io'}
+    maven { url = "http://52.144.46.165:8081/repository/maven-releases/"}
     maven {
         name 'Sponge maven repo'
         url 'http://repo.spongepowered.org/maven'
@@ -49,8 +49,8 @@ repositories {
 }
 
 dependencies {
+    compileOnly "com.pixelmongenerations:main-mod:8.5.1"
     compile 'org.spongepowered:spongeapi:7.2.0'
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     shadow 'com.github.Eufranio:StorageUtils:2.3'
     annotationProcessor("org.spongepowered:spongecommon:1.12.2-7.2.0:dev")
     provided("org.spongepowered:spongecommon:1.12.2-7.2.0:dev") {

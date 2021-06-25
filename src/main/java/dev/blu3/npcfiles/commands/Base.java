@@ -15,14 +15,15 @@ public class Base implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 
         PaginationList.builder()
-                .title(Utils.toText("&b&lNPCFiles"))
+                .title(Utils.toText("&bNPCFiles"))
                 .padding(Utils.toText("&8&m-&r"))
                 .contents(
                         Utils.toText("&b/npcfiles save <name>"),
                         Utils.toText("&b/npcfiles delete <name>"),
                         Utils.toText("&b/npcfiles spawn <name>"),
-                        Utils.toText("&b/npcfiles playertrainer <name>"),
-                        Utils.toText("&b/npcfiles list")
+                        Utils.toText("&b/npcfiles playertrainer <player>"),
+                        Utils.toText("&b/npcfiles list"),
+                        Utils.toText("&b/npcfiles reload")
                 )
                 .linesPerPage(10)
                 .sendTo(src);
@@ -39,6 +40,7 @@ public class Base implements CommandExecutor {
                 .child(Spawn.build(), "spawn")
                 .child(PlayerTrainer.build(), "playertrainer")
                 .child(List.build(), "list")
+                .child(Reload.build(), "reload")
                 .build();
     }
 }

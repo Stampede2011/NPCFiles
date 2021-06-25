@@ -23,20 +23,20 @@ public class Save implements CommandExecutor {
 
                 try {
                     if (Utils.getDataMap().get(name) != null) {
-                        src.sendMessage(Utils.toText("&8(&b&lNPCFiles&8) &cAn NPC file of this type already exists."));
+                        src.sendMessage(Utils.toText("&8(&bNPCFiles&8) &cAn NPC file of this type already exists."));
                     } else {
                         Utils.inSelectMode.put(player.getUniqueId(), true);
                         Utils.npcFileName.put(player.getUniqueId(), name);
-                        src.sendMessage(Utils.toText("&8(&b&lNPCFiles&8) &cRight-click a NPC to save."));
+                        src.sendMessage(Utils.toText("&8(&bNPCFiles&8) &cRight-click a NPC to save."));
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             } else {
-                src.sendMessage(Utils.toText("&8(&b&lNPCFiles&8) &cCommand syntax is invalid!"));
+                src.sendMessage(Utils.toText("&8(&bNPCFiles&8) &cCommand syntax is invalid!"));
             }
         } else {
-            src.sendMessage(Utils.toText("&8(&b&lNPCFiles&8) &cOnly players can use this command!"));
+            src.sendMessage(Utils.toText("&8(&bNPCFiles&8) &cOnly players can use this command!"));
         }
 
         return CommandResult.success();

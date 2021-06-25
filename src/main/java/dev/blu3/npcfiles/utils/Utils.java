@@ -16,6 +16,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class Utils {
         return TextSerializers.FORMATTING_CODE.deserialize(msg);
     }
 
-    public static Entity createNPC(BlockPos pos, World world, EnumNPCType npcType, NBTTagCompound tag, Player player) {
+    public static Entity createNPC(double x, double y, double z, World world, EnumNPCType npcType, NBTTagCompound tag, Player player) {
         NPCTutor tutor;
         NPCTrader trader;
         NPCShopkeeper shopkeeper;
@@ -44,7 +45,7 @@ public class Utils {
                 nurseJoy = new NPCNurseJoy(world);
                 nurseJoy.func_70037_a(tag);
                 nurseJoy.setUniqueId(MathHelper.getRandomUUID());
-                nurseJoy.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                nurseJoy.setPosition(x, y, z);
                 return nurseJoy;
             case Trainer:
                 trainer = new NPCTrainer(world);
@@ -52,37 +53,37 @@ public class Utils {
                     trainer.func_70037_a(tag);
                 }
                 trainer.setUniqueId(MathHelper.getRandomUUID());
-                trainer.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                trainer.setPosition(x, y, z);
                 return trainer;
             case ChattingNPC:
                 chatting = new NPCChatting(world);
                 chatting.func_70037_a(tag);
                 chatting.setUniqueId(MathHelper.getRandomUUID());
-                chatting.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                chatting.setPosition(x, y, z);
                 return chatting;
             case Relearner:
                 relearner = new NPCRelearner(world);
                 relearner.func_70037_a(tag);
                 relearner.setUniqueId(MathHelper.getRandomUUID());
-                relearner.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                relearner.setPosition(x, y, z);
                 return relearner;
             case Shopkeeper:
                 shopkeeper = new NPCShopkeeper(world);
                 shopkeeper.func_70037_a(tag);
                 shopkeeper.setUniqueId(MathHelper.getRandomUUID());
-                shopkeeper.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                shopkeeper.setPosition(x, y, z);
                 return shopkeeper;
             case Trader:
                 trader = new NPCTrader(world);
                 trader.func_70037_a(tag);
                 trader.setUniqueId(MathHelper.getRandomUUID());
-                trader.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                trader.setPosition(x, y, z);
                 return trader;
             case Tutor:
                 tutor = new NPCTutor(world);
                 tutor.func_70037_a(tag);
                 tutor.setUniqueId(MathHelper.getRandomUUID());
-                tutor.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                tutor.setPosition(x, y, z);
                 return tutor;
         }
         player.sendMessage(Utils.toText("Error creating NPC of type: " + npcType));
@@ -102,10 +103,18 @@ public class Utils {
         gsonWriter.close();
     }
 
-    public static HashMap<String, HashMap<EnumNPCType, String>> getDataMap() throws IOException {
-        final FileReader gsonReader = new FileReader(NPCFiles.getFile());
-        dataMap = gson.fromJson(gsonReader, DataGSON.class).getData();
-        gsonReader.close();
+    public static HashMap<String, HashMap<EnumNPCType, String>> getDataMap() {
+        final FileReader gsonReader;
+        try {
+            gsonReader = new FileReader(NPCFiles.getFile());
+
+            dataMap = gson.fromJson(gsonReader, DataGSON.class).getData();
+            gsonReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return dataMap;
     }
 
